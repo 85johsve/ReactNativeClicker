@@ -1,65 +1,62 @@
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import {
   PropsWithChildren,
   createContext,
   useContext,
   useEffect,
-  useState,
+  useReducer,
 } from "react";
+import reducer, { GameData, KnownAction, initialState } from "./Reducer";
 
-type GameContextValue = {
-  count: number;
-  inc: () => void;
-  dec: () => void;
-};
-
-const GameContext = createContext<GameContextValue | undefined>(undefined);
-
-export function useCount(): GameContextValue {
-  const context = useContext(GameContext);
-  if (context === undefined) {
-    throw new Error("useCount must be used within a GameCounterProvider");
-  }
-  return context;
-}
+const GameContext = createContext<GameData>(null as any);
+const GameContextDispatch = createContext<React.Dispatch<KnownAction>>(
+  null as any
+);
 
 export function GameCounterProvider(props: PropsWithChildren) {
-  const [count, setCount] = useState(0);
+  const [state, dispatch] = useReducer(reducer, initialState);
+
+  // useEffect(() => {
+  //   const loadData = async () => {
+  //     try {
+  //       const storedData = await AsyncStorage.getItem("Data");
+  //       if (storedData !== null) {
+  //         const parsedData = JSON.parse(storedData);
+  //         dispatch({ type: "loadStateData", payload: parsedData });
+  //         console.log(parsedData);
+  //       }
+  //     } catch (e) {}
+  //   };
+
+  //   loadData();
+  // }, []);
+
+  // useEffect(() => {
+  //   const storeData = async () => {
+  //     try {
+  //       const jsonValue = JSON.stringify(state);
+  //       await AsyncStorage.setItem("Data", jsonValue);
+  //     } catch (e) {}
+  //   };
+
+  //   storeData();
+  // }, [state]);
 
   useEffect(() => {
-    loadData();
+    const interval = setInterval(
+      () => dispatch({ type: "autoIncrement" }),
+      1000
+    );
+    return () => clearInterval(interval);
   }, []);
 
-  useEffect(() => {
-    storeData();
-  }, [count]);
-
-  const loadData = async () => {
-    try {
-      const storedCount = await AsyncStorage.getItem("count");
-      if (storedCount !== null) {
-        setCount(Number(storedCount));
-      }
-    } catch (e) {}
-  };
-
-  const storeData = async () => {
-    try {
-      await AsyncStorage.setItem("count", String(count));
-    } catch (e) {}
-  };
-
-  const inc = () => {
-    setCount((prevCount) => prevCount + 1);
-  };
-
-  const dec = () => {
-    setCount((prevCount) => prevCount - 1);
-  };
-
   return (
-    <GameContext.Provider value={{ count, inc, dec }}>
-      {props.children}
+    <GameContext.Provider value={state}>
+      <GameContextDispatch.Provider value={dispatch}>
+        {props.children}
+      </GameContextDispatch.Provider>
     </GameContext.Provider>
   );
 }
+
+export const useGameState = () => useContext(GameContext);
+export const useGameDispatch = () => useContext(GameContextDispatch);

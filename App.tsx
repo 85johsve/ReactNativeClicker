@@ -10,10 +10,6 @@ export type RootStackParamList = {
   Game: undefined;
 };
 
-// type HomeScreenProps = NativeStackScreenProps<RootStackParamList, "Home">;
-
-// type GameScreenProps = NativeStackScreenProps<RootStackParamList, "Game">;
-
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
 export default function App() {

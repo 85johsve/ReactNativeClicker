@@ -1,20 +1,18 @@
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
-import { Button, StyleSheet, View } from "react-native";
+import { StyleSheet, View } from "react-native";
 import { RootStackParamList } from "../App";
-import { useCount } from "../components/GameContext";
+import AutoClicker from "../components/AutoClicker";
+import Clicker from "../components/Clicker";
 
 type Props = NativeStackScreenProps<RootStackParamList, "Game">;
 
-
-
-export default function GameScreen({ navigation }: Props) {
-  const { count, inc } = useCount();
-
+export default function GameScreen({}: Props) {
   return (
     <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
-      PLAY!!
-      <Button title="PLAY" onPress={inc} />
-      <View>Amount: {count}</View>
+      <Clicker />
+      <AutoClicker name="autoClicker" />
+      <AutoClicker name="doubleClicker" />
+      <View></View>
     </View>
   );
 }
