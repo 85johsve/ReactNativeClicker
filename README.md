@@ -11,3 +11,4 @@ useState,
 ## Expo SDK’n
 
 linearGradient
+ASync Storage
