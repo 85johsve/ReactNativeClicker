@@ -1,27 +1,16 @@
-import React, { useState } from "react";
+import React from "react";
 import { Modal, Pressable, StyleSheet, Text, View } from "react-native";
 import AutoClicker from "./AutoClicker";
+import { useGameState } from "./GameContext";
 
-export default function AutoClickerMenu({
-  autoclickers,
-  isVisible,
-  onClose,
-  onAutoClickerPurchase,
-}) {
-  const [isMenuVisible, setMenuVisible] = useState(false);
+export default function AutoClickerMenu({ isVisible, onClose }) {
+  const { autoclickers } = useGameState();
 
   return (
     <Modal visible={isVisible} animationType="slide" transparent={true}>
       <View style={styles.overlay}>
         {Object.keys(autoclickers).map((autoClickerName, index) => {
-          const autoclicker = autoclickers[autoClickerName];
-          return (
-            <AutoClicker
-              key={autoClickerName}
-              name={autoClickerName}
-              onPurchase={() => onAutoClickerPurchase(autoClickerName)}
-            />
-          );
+          return <AutoClicker key={autoClickerName} name={autoClickerName} />;
         })}
         <Pressable
           style={({ pressed }) => [
@@ -60,17 +49,4 @@ const styles = StyleSheet.create({
     bottom: 0,
     backgroundColor: "rgba(0, 0, 0, 0.5)",
   },
-  // autoClickerContainer: {
-  //   position: "absolute",
-  //   flexDirection: "column",
-  //   justifyContent: "center",
-  // },
-  // leftAutoClicker: {
-  //   alignSelf: "flex-start",
-  //   marginRight: 10,
-  // },
-  // rightAutoClicker: {
-  //   alignSelf: "flex-end",
-  //   marginLeft: 10,
-  // },
 });

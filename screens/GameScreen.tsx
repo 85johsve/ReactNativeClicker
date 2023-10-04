@@ -53,12 +53,8 @@ export default function GameScreen({}: Props) {
           </Text>
         </Pressable>
         <AutoClickerMenu
-          autoclickers={autoclickers}
           isVisible={isMenuVisible}
           onClose={() => setMenuVisible(false)}
-          onAutoClickerPurchase={() =>
-            dispatch({ type: "increment", payload: name })
-          }
         />
       </ImageBackground>
     </View>
