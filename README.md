@@ -7,11 +7,13 @@ createContext,
 useContext,
 useEffect,
 useState,
+ASync Storage
 
 ## Expo SDK’n
 
-linearGradient
-ASync Storage
+LinearGradient
+StatusBar
+SplashScreen
 
 ## Krav:
 

@@ -4,6 +4,7 @@ import { StatusBar } from "expo-status-bar";
 import React from "react";
 import "react-native-gesture-handler";
 import { GameCounterProvider } from "./components/GameContext";
+import { AnimatedAppLoader } from "./components/SplashScreen";
 import GameScreen from "./screens/GameScreen";
 import HomeScreen from "./screens/HomeScreen";
 
@@ -16,22 +17,24 @@ const Stack = createNativeStackNavigator<RootStackParamList>();
 
 export default function App() {
   return (
-    <NavigationContainer theme={MyTheme}>
-      <GameCounterProvider>
-        <Stack.Navigator
-          screenOptions={{
-            headerStyle: { backgroundColor: "rgb(252, 223, 225)" },
-            headerTitleAlign: "center",
-            headerShadowVisible: false,
-          }}
-          initialRouteName="Home"
-        >
-          <Stack.Screen name="Home" component={HomeScreen} />
-          <Stack.Screen name="Game" component={GameScreen} />
-        </Stack.Navigator>
-        <StatusBar style="auto" />
-      </GameCounterProvider>
-    </NavigationContainer>
+    <AnimatedAppLoader image={require("./images/splash.jpg")}>
+      <NavigationContainer theme={MyTheme}>
+        <GameCounterProvider>
+          <Stack.Navigator
+            screenOptions={{
+              headerStyle: { backgroundColor: "rgb(252, 223, 225)" },
+              headerTitleAlign: "center",
+              headerShadowVisible: false,
+            }}
+            initialRouteName="Home"
+          >
+            <Stack.Screen name="Home" component={HomeScreen} />
+            <Stack.Screen name="Game" component={GameScreen} />
+          </Stack.Navigator>
+          <StatusBar style="auto" />
+        </GameCounterProvider>
+      </NavigationContainer>
+    </AnimatedAppLoader>
   );
 }
 
