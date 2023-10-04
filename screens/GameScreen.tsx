@@ -18,7 +18,7 @@ type Props = NativeStackScreenProps<RootStackParamList, "Game">;
 const image = require("../images/field.jpg");
 
 export default function GameScreen({}: Props) {
-  const { clicks, autoclickers: autoClickers } = useGameState();
+  const { clicks, autoclickers } = useGameState();
   const [isMenuVisible, setMenuVisible] = useState(false);
   const dispatch = useGameDispatch();
 
@@ -53,7 +53,7 @@ export default function GameScreen({}: Props) {
           </Text>
         </Pressable>
         <AutoClickerMenu
-          autoclickers={autoClickers}
+          autoclickers={autoclickers}
           isVisible={isMenuVisible}
           onClose={() => setMenuVisible(false)}
           onAutoClickerPurchase={dispatch({ type: "increment", payload: name })}

@@ -1,5 +1,6 @@
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
-import { Text, View, Button } from "react-native";
+import { LinearGradient } from "expo-linear-gradient";
+import { Animated, Pressable, StyleSheet, Text, View } from "react-native";
 import { RootStackParamList } from "../App";
 
 type Props = NativeStackScreenProps<RootStackParamList, "Home">;
@@ -7,8 +8,52 @@ type Props = NativeStackScreenProps<RootStackParamList, "Home">;
 export default function HomeScreen({ navigation }: Props) {
   return (
     <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
-      <Text>Home Screen</Text>
-      <Button title="PLAY" onPress={() => navigation.navigate("Game")} />
+      <LinearGradient
+        // Background Linear Gradient
+        colors={["rgb(252, 223, 225)", "purple"]}
+        style={styles.background}
+      />
+      <Pressable
+        style={styles.pressableContainer}
+        onPress={() => navigation.navigate("Game")}
+      >
+        <Animated.Image
+          source={require("../images/cloud.png")}
+          style={[styles.cloudImage]}
+        />
+        <View style={[styles.cloudTextContainer]}>
+          <Text style={styles.cloudText}>PLAY</Text>
+        </View>
+      </Pressable>
     </View>
   );
 }
+
+const styles = StyleSheet.create({
+  cloudImage: {
+    width: 300,
+    height: 160,
+  },
+  cloudTextContainer: {
+    position: "absolute",
+    top: "45%",
+    left: "45%",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  cloudText: {
+    fontSize: 16,
+    fontWeight: "bold",
+  },
+  background: {
+    flex: 1,
+    width: "100%",
+    al1ignItems: "center",
+    justifyContent: "center",
+  },
+  pressableContainer: {
+    position: "absolute",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+});

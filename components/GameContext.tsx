@@ -1,3 +1,4 @@
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import {
   PropsWithChildren,
   createContext,
@@ -15,31 +16,31 @@ const GameContextDispatch = createContext<React.Dispatch<KnownAction>>(
 export function GameCounterProvider(props: PropsWithChildren) {
   const [state, dispatch] = useReducer(reducer, initialState);
 
-  // useEffect(() => {
-  //   const loadData = async () => {
-  //     try {
-  //       const storedData = await AsyncStorage.getItem("Data");
-  //       if (storedData !== null) {
-  //         const parsedData = JSON.parse(storedData);
-  //         dispatch({ type: "loadStateData", payload: parsedData });
-  //         console.log(parsedData);
-  //       }
-  //     } catch (e) {}
-  //   };
+  useEffect(() => {
+    const loadData = async () => {
+      try {
+        const storedData = await AsyncStorage.getItem("Data");
+        if (storedData !== null) {
+          const parsedData = JSON.parse(storedData);
+          dispatch({ type: "loadStateData", payload: parsedData });
+          console.log(parsedData);
+        }
+      } catch (e) {}
+    };
 
-  //   loadData();
-  // }, []);
+    loadData();
+  }, []);
 
-  // useEffect(() => {
-  //   const storeData = async () => {
-  //     try {
-  //       const jsonValue = JSON.stringify(state);
-  //       await AsyncStorage.setItem("Data", jsonValue);
-  //     } catch (e) {}
-  //   };
+  useEffect(() => {
+    const storeData = async () => {
+      try {
+        const jsonValue = JSON.stringify(state);
+        await AsyncStorage.setItem("Data", jsonValue);
+      } catch (e) {}
+    };
 
-  //   storeData();
-  // }, [state]);
+    storeData();
+  }, [state]);
 
   useEffect(() => {
     const interval = setInterval(

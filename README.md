@@ -12,3 +12,8 @@ useState,
 
 linearGradient
 ASync Storage
+
+## Krav:
+
+[x] använt Git
+[]

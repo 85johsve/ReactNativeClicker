@@ -11,22 +11,37 @@ export default function AutoClicker({
   const { autoclickers } = useGameState();
   const dispatch = useGameDispatch();
 
-  const [scaleValue] = useState(new Animated.Value(1));
+  const [imageScale] = useState(new Animated.Value(1));
+  const [textScale] = useState(new Animated.Value(1));
 
   const autoclicker = autoclickers[name];
   if (!autoclicker) return null;
 
   const animatedButton = () => {
-    Animated.timing(scaleValue, {
-      toValue: 0.8,
-      duration: 200,
-      useNativeDriver: true,
-    }).start(() => {
-      Animated.timing(scaleValue, {
-        toValue: 1,
+    Animated.parallel([
+      Animated.timing(imageScale, {
+        toValue: 0.8,
         duration: 200,
         useNativeDriver: true,
-      }).start();
+      }),
+      Animated.timing(textScale, {
+        toValue: 0.8,
+        duration: 200,
+        useNativeDriver: true,
+      }),
+    ]).start(() => {
+      Animated.parallel([
+        Animated.timing(imageScale, {
+          toValue: 1,
+          duration: 200,
+          useNativeDriver: true,
+        }),
+        Animated.timing(textScale, {
+          toValue: 1,
+          duration: 200,
+          useNativeDriver: true,
+        }),
+      ]).start();
     });
   };
 
@@ -50,34 +65,38 @@ export default function AutoClicker({
           style={[
             styles.cloudImage,
             {
-              transform: [{ scale: scaleValue }],
+              transform: [{ scale: imageScale }],
             },
           ]}
         />
+        <Animated.View
+          style={[
+            styles.cloudTextContainer,
+            { transform: [{ scale: textScale }] },
+          ]}
+        >
+          <Text style={styles.cloudText}>{name}</Text>
+          <Text style={styles.cloudText}>cost: {autoclicker.cost}</Text>
+          <Text style={styles.cloudText}>Amount: {autoclicker.amount}</Text>
+        </Animated.View>
       </Pressable>
-      <View style={styles.cloudText}>
-        <Text>{name}</Text>
-        <Text>cost: {autoclicker.cost}</Text>
-        <Text>Amount: {autoclicker.amount}</Text>
-      </View>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-  buttonContainer: {
-    alignItems: "center",
-    justifyContent: "center",
-    width: 100,
-    height: 100,
-    backgroundColor: "transparent",
-  },
   cloudImage: {
     width: 300,
     height: 160,
   },
-  cloudText: {
+  cloudTextContainer: {
     position: "absolute",
+    top: "35%",
+    left: "35%",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  cloudText: {
     fontSize: 16,
     fontWeight: "bold",
   },

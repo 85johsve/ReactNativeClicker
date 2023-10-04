@@ -13,7 +13,7 @@ export default function AutoClickerMenu({
   return (
     <Modal visible={isVisible} animationType="slide" transparent={true}>
       <View style={styles.overlay}>
-        {Object.keys(autoclickers).map((autoClickerName) => {
+        {Object.keys(autoclickers).map((autoClickerName, index) => {
           const autoclicker = autoclickers[autoClickerName];
           return (
             <AutoClicker
@@ -60,4 +60,17 @@ const styles = StyleSheet.create({
     bottom: 0,
     backgroundColor: "rgba(0, 0, 0, 0.5)",
   },
+  // autoClickerContainer: {
+  //   position: "absolute",
+  //   flexDirection: "column",
+  //   justifyContent: "center",
+  // },
+  // leftAutoClicker: {
+  //   alignSelf: "flex-start",
+  //   marginRight: 10,
+  // },
+  // rightAutoClicker: {
+  //   alignSelf: "flex-end",
+  //   marginLeft: 10,
+  // },
 });

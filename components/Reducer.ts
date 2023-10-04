@@ -3,6 +3,9 @@ export type GameData = {
   autoclickers: {
     autoClicker: { cost: number; amount: number };
     doubleClicker: { cost: number; amount: number };
+    superClicker: { cost: number; amount: number };
+    duperClicker: { cost: number; amount: number };
+    fluperClicker: { cost: number; amount: number };
   };
 };
 
@@ -11,6 +14,9 @@ export const initialState: GameData = {
   autoclickers: {
     autoClicker: { cost: 10, amount: 0 },
     doubleClicker: { cost: 50, amount: 0 },
+    superClicker: { cost: 100, amount: 0 },
+    duperClicker: { cost: 200, amount: 0 },
+    fluperClicker: { cost: 300, amount: 0 },
   },
 };
 
@@ -31,7 +37,7 @@ type AutoIncrementAction = {
 
 type LoadStateDataAction = {
   type: "loadStateData";
-  payload: number;
+  payload: GameData;
 };
 
 type DecrementAction = {
@@ -99,7 +105,7 @@ export default function reducer(
     case "loadStateData":
       return {
         ...state,
-        clicks: { ...state.clicks, amount: action.payload },
+        ...action.payload,
       };
     default:
       return state;
