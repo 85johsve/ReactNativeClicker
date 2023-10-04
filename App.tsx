@@ -17,7 +17,7 @@ const Stack = createNativeStackNavigator<RootStackParamList>();
 
 export default function App() {
   return (
-    <AnimatedAppLoader image={require("./images/splash.jpg")}>
+    <AnimatedAppLoader>
       <NavigationContainer theme={MyTheme}>
         <GameCounterProvider>
           <Stack.Navigator

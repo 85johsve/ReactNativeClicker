@@ -1,33 +1,27 @@
-import { Asset } from "expo-asset";
 import * as SplashScreen from "expo-splash-screen";
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { ReactNode, useCallback, useEffect, useMemo, useState } from "react";
 import { Animated, Image, StyleSheet, View } from "react-native";
 
 SplashScreen.preventAutoHideAsync().catch(() => {});
 
-export function AnimatedAppLoader({ children, image }) {
+interface Props {
+  children: ReactNode;
+}
+
+export function AnimatedAppLoader({ children }: Props) {
+  const animation = useMemo(() => new Animated.Value(1), []);
+  const [isAppReady, setAppReady] = useState(false);
+  const [isSplashAnimationComplete, setAnimationComplete] = useState(false);
   const [isSplashReady, setSplashReady] = useState(false);
+  const image = require("../images/splash.jpg");
 
   useEffect(() => {
     async function prepare() {
-      await Asset.fromURI(image).downloadAsync();
       setSplashReady(true);
     }
 
     prepare();
-  }, [image]);
-
-  if (!isSplashReady) {
-    return null;
-  }
-
-  return <AnimatedSplashScreen image={image}>{children}</AnimatedSplashScreen>;
-}
-
-function AnimatedSplashScreen({ children, image }) {
-  const animation = useMemo(() => new Animated.Value(1), []);
-  const [isAppReady, setAppReady] = useState(false);
-  const [isSplashAnimationComplete, setAnimationComplete] = useState(false);
+  }, []);
 
   useEffect(() => {
     if (isAppReady) {
@@ -42,10 +36,8 @@ function AnimatedSplashScreen({ children, image }) {
   const onImageLoaded = useCallback(async () => {
     try {
       await SplashScreen.hideAsync();
-      // Load stuff
       await Promise.all([]);
     } catch (e) {
-      // handle errors
     } finally {
       setAppReady(true);
     }
@@ -54,7 +46,7 @@ function AnimatedSplashScreen({ children, image }) {
   return (
     <View style={{ flex: 1 }}>
       {isAppReady && children}
-      {!isSplashAnimationComplete && (
+      {!isSplashAnimationComplete && isSplashReady && (
         <Animated.View
           pointerEvents="none"
           style={[
