@@ -23,7 +23,6 @@ export function GameCounterProvider(props: PropsWithChildren) {
         if (storedData !== null) {
           const parsedData = JSON.parse(storedData);
           dispatch({ type: "loadStateData", payload: parsedData });
-          console.log(parsedData);
         }
       } catch (e) {}
     };

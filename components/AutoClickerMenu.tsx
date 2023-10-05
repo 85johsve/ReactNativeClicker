@@ -11,12 +11,12 @@ interface Props {
 
 export default function AutoClickerMenu({ isVisible, onClose }: Props) {
   const { autoclickers } = useGameState();
-  const autoclickerNames = Object.keys(autoclickers);
+  const autoclickerList = Object.keys(autoclickers);
 
   return (
     <Modal visible={isVisible} animationType="slide" transparent={true}>
       <BlurView style={styles.overlay}>
-        {autoclickerNames.map((autoclicker) => {
+        {autoclickerList.map((autoclicker) => {
           return <AutoClicker key={autoclicker} name={autoclicker} />;
         })}
         <Pressable

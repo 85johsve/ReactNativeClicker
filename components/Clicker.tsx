@@ -4,30 +4,19 @@ import { useGameDispatch, useGameState } from "./GameContext";
 
 export default function Clicker() {
   const { clicks } = useGameState();
-  const [imageScale] = useState(new Animated.Value(1));
-  const [textScale] = useState(new Animated.Value(1));
+  const [buttonScale] = useState(new Animated.Value(1));
   const dispatch = useGameDispatch();
 
   const animatedButton = () => {
     Animated.parallel([
-      Animated.timing(imageScale, {
-        toValue: 0.8,
-        duration: 200,
-        useNativeDriver: true,
-      }),
-      Animated.timing(textScale, {
+      Animated.timing(buttonScale, {
         toValue: 0.8,
         duration: 200,
         useNativeDriver: true,
       }),
     ]).start(() => {
       Animated.parallel([
-        Animated.timing(imageScale, {
-          toValue: 1,
-          duration: 200,
-          useNativeDriver: true,
-        }),
-        Animated.timing(textScale, {
+        Animated.timing(buttonScale, {
           toValue: 1,
           duration: 200,
           useNativeDriver: true,
@@ -52,14 +41,14 @@ export default function Clicker() {
           style={[
             styles.cloudImage,
             {
-              transform: [{ scale: imageScale }],
+              transform: [{ scale: buttonScale }],
             },
           ]}
         />
         <Animated.View
           style={[
             styles.cloudTextContainer,
-            { transform: [{ scale: textScale }] },
+            { transform: [{ scale: buttonScale }] },
           ]}
         >
           <Text>GET UNICORN</Text>

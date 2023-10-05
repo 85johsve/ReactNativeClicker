@@ -11,32 +11,21 @@ export default function AutoClicker({ name }: Props) {
   const { autoclickers } = useGameState();
   const dispatch = useGameDispatch();
 
-  const [imageScale] = useState(new Animated.Value(1));
-  const [textScale] = useState(new Animated.Value(1));
+  const [pressableScale] = useState(new Animated.Value(1));
 
   const autoclicker = autoclickers[name];
   if (!autoclicker) return null;
 
   const animatedButton = () => {
     Animated.parallel([
-      Animated.timing(imageScale, {
-        toValue: 0.8,
-        duration: 200,
-        useNativeDriver: true,
-      }),
-      Animated.timing(textScale, {
+      Animated.timing(pressableScale, {
         toValue: 0.8,
         duration: 200,
         useNativeDriver: true,
       }),
     ]).start(() => {
       Animated.parallel([
-        Animated.timing(imageScale, {
-          toValue: 1,
-          duration: 200,
-          useNativeDriver: true,
-        }),
-        Animated.timing(textScale, {
+        Animated.timing(pressableScale, {
           toValue: 1,
           duration: 200,
           useNativeDriver: true,
@@ -65,14 +54,14 @@ export default function AutoClicker({ name }: Props) {
           style={[
             styles.cloudImage,
             {
-              transform: [{ scale: imageScale }],
+              transform: [{ scale: pressableScale }],
             },
           ]}
         />
         <Animated.View
           style={[
             styles.cloudTextContainer,
-            { transform: [{ scale: textScale }] },
+            { transform: [{ scale: pressableScale }] },
           ]}
         >
           <Text style={styles.cloudText}>{name}</Text>

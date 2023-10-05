@@ -3,22 +3,22 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 export type GameData = {
   clicks: { amount: number };
   autoclickers: {
-    autoClicker: { cost: number; amount: number };
-    doubleClicker: { cost: number; amount: number };
-    superClicker: { cost: number; amount: number };
-    duperClicker: { cost: number; amount: number };
-    fluperClicker: { cost: number; amount: number };
+    extraClicks: { cost: number; amount: number; multiplyer: number };
+    autoClicker: { cost: number; amount: number; multiplyer: number };
+    superClicker: { cost: number; amount: number; multiplyer: number };
+    duperClicker: { cost: number; amount: number; multiplyer: number };
+    fluperClicker: { cost: number; amount: number; multiplyer: number };
   };
 };
 
 export const initialState: GameData = {
   clicks: { amount: 0 },
   autoclickers: {
-    autoClicker: { cost: 10, amount: 0 },
-    doubleClicker: { cost: 50, amount: 0 },
-    superClicker: { cost: 100, amount: 0 },
-    duperClicker: { cost: 200, amount: 0 },
-    fluperClicker: { cost: 300, amount: 0 },
+    extraClicks: { cost: 10, amount: 0, multiplyer: 0 },
+    autoClicker: { cost: 50, amount: 0, multiplyer: 10 },
+    superClicker: { cost: 100, amount: 0, multiplyer: 20 },
+    duperClicker: { cost: 200, amount: 0, multiplyer: 50 },
+    fluperClicker: { cost: 300, amount: 0, multiplyer: 100 },
   },
 };
 
@@ -66,8 +66,12 @@ function calculateTotalCount(data: GameData): number {
   ) as (keyof typeof autoclickers)[];
 
   const autoclickerTotal = autoclickerKeys.reduce((total, key) => {
-    const { cost, amount } = autoclickers[key];
-    return total + cost * amount * 0.1;
+    if (key !== "extraClicks") {
+      const { multiplyer, amount } = autoclickers[key];
+      console.log(total);
+      return total + multiplyer * amount * 0.1;
+    }
+    return total;
   }, 0);
 
   const totalCount = clicks.amount + autoclickerTotal;
@@ -81,10 +85,21 @@ export default function reducer(
 ) {
   switch (action.type) {
     case "click":
-      return {
-        ...state,
-        clicks: { amount: state.clicks.amount + 1 },
-      };
+      if (state.autoclickers.extraClicks.amount >= 1)
+        return {
+          ...state,
+          clicks: {
+            amount:
+              state.clicks.amount + state.autoclickers.extraClicks.amount + 1,
+          },
+        };
+      else
+        return {
+          ...state,
+          clicks: {
+            amount: state.clicks.amount + 1,
+          },
+        };
     case "autoIncrement":
       const totalCount = calculateTotalCount(state);
       return {
@@ -97,12 +112,17 @@ export default function reducer(
       if (autoClicker) {
         const { cost, amount } = autoClicker;
         if (state.clicks.amount >= cost) {
+          const updatetCost = Math.round(cost * 3);
           return {
             ...state,
             clicks: { amount: state.clicks.amount - cost },
             autoclickers: {
               ...state.autoclickers,
-              [payload]: { ...autoClicker, amount: amount + 1 },
+              [payload]: {
+                ...autoClicker,
+                amount: amount + 1,
+                cost: updatetCost,
+              },
             },
           };
         }
