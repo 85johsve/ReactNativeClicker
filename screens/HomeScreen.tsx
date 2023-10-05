@@ -9,7 +9,6 @@ export default function HomeScreen({ navigation }: Props) {
   return (
     <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
       <LinearGradient
-        // Background Linear Gradient
         colors={["rgb(252, 223, 225)", "purple"]}
         style={styles.background}
       />

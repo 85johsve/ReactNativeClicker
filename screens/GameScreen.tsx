@@ -10,17 +10,14 @@ import {
 import "react-native-gesture-handler";
 import { RootStackParamList } from "../App";
 import Clicker from "../components/Clicker";
-import { useGameDispatch, useGameState } from "../components/GameContext";
-import AutoClickerMenu from "../components/Modal";
+import AutoClickerMenu from "../components/AutoClickerMenu";
 
 type Props = NativeStackScreenProps<RootStackParamList, "Game">;
 
 const image = require("../images/field.jpg");
 
 export default function GameScreen({}: Props) {
-  const { clicks, autoclickers } = useGameState();
   const [isMenuVisible, setMenuVisible] = useState(false);
-  const dispatch = useGameDispatch();
 
   return (
     <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
@@ -34,7 +31,7 @@ export default function GameScreen({}: Props) {
           style={({ pressed }) => [
             {
               backgroundColor: pressed
-                ? "rgb(118, 177, 170)"
+                ? "rgb(118, 187, 170)"
                 : "rgb(118, 177, 170)",
               height: 35,
               alignItems: "center",

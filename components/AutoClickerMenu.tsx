@@ -1,22 +1,29 @@
+import { BlurView } from "expo-blur";
 import React from "react";
-import { Modal, Pressable, StyleSheet, Text, View } from "react-native";
+import { Modal, Pressable, StyleSheet, Text } from "react-native";
 import AutoClicker from "./AutoClicker";
 import { useGameState } from "./GameContext";
 
-export default function AutoClickerMenu({ isVisible, onClose }) {
+interface Props {
+  isVisible: boolean;
+  onClose: () => void;
+}
+
+export default function AutoClickerMenu({ isVisible, onClose }: Props) {
   const { autoclickers } = useGameState();
+  const autoclickerNames = Object.keys(autoclickers);
 
   return (
     <Modal visible={isVisible} animationType="slide" transparent={true}>
-      <View style={styles.overlay}>
-        {Object.keys(autoclickers).map((autoClickerName, index) => {
-          return <AutoClicker key={autoClickerName} name={autoClickerName} />;
+      <BlurView style={styles.overlay}>
+        {autoclickerNames.map((autoclicker) => {
+          return <AutoClicker key={autoclicker} name={autoclicker} />;
         })}
         <Pressable
           style={({ pressed }) => [
             {
               backgroundColor: pressed
-                ? "rgb(118, 177, 170)"
+                ? "rgb(118, 187, 170)"
                 : "rgb(118, 177, 170)",
               height: 35,
               alignItems: "center",
@@ -34,7 +41,7 @@ export default function AutoClickerMenu({ isVisible, onClose }) {
             CLOSE
           </Text>
         </Pressable>
-      </View>
+      </BlurView>
     </Modal>
   );
 }

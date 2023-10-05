@@ -3,11 +3,11 @@ import { Animated, Pressable, StyleSheet, Text, View } from "react-native";
 import { useGameDispatch, useGameState } from "./GameContext";
 import { GameData } from "./Reducer";
 
-export default function AutoClicker({
-  name,
-}: {
+interface Props {
   name: keyof GameData["autoclickers"];
-}) {
+}
+
+export default function AutoClicker({ name }: Props) {
   const { autoclickers } = useGameState();
   const dispatch = useGameDispatch();
 
