@@ -1,3 +1,5 @@
+import AsyncStorage from "@react-native-async-storage/async-storage";
+
 export type GameData = {
   clicks: { amount: number };
   autoclickers: {
@@ -44,12 +46,17 @@ type DecrementAction = {
   type: "";
 };
 
+type ClearMemory = {
+  type: "clearMemory";
+};
+
 export type KnownAction =
   | ClickAction
   | Increment
   | DecrementAction
   | AutoIncrementAction
-  | LoadStateDataAction;
+  | LoadStateDataAction
+  | ClearMemory;
 
 function calculateTotalCount(data: GameData): number {
   const { clicks, autoclickers } = data;
@@ -107,6 +114,14 @@ export default function reducer(
         ...state,
         ...action.payload,
       };
+
+    case "clearMemory":
+      AsyncStorage.clear().catch((error) => {
+        console.error("Error clearing asyncStorage:", error);
+      });
+
+      return initialState;
+
     default:
       return state;
   }
