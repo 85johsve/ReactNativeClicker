@@ -81,7 +81,7 @@ const styles = StyleSheet.create({
   cloudTextContainer: {
     position: "absolute",
     top: "35%",
-    left: "35%",
+    left: "30%",
     alignItems: "center",
     justifyContent: "center",
   },

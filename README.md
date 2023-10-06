@@ -2,6 +2,8 @@
 
 ## Beskrivning
 
+Ett spel med enkel mekanik och fluffig design.
+
 ## RN komponenter
 
 PropsWithChildren,
@@ -24,4 +26,3 @@ BlurView
 [x] använt Git
 [x] fler än fyra RN-komponenter
 [x] fyra Expo SDK:n
-[]
